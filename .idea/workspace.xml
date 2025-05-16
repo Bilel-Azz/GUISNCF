@@ -5,25 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5f8e420-8279-4b2b-b20e-f922ec3a41c9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/AnalyseTram.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/HelloController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/demo/hello-view.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bdd.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/db/DatabaseManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/model/FilterRule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/model/TrainInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/serial/SerialTransmitter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/MainContentPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/ToolbarPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/PortConfigSelectorPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/RoundRectBorder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/SignalGraphPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/dialogs/AddPortConfigDialog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/dialogs/EditPortConfigDialog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/FilterView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/GraphView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/GraphViewPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/MessageView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/MessageViewPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/delete.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/edit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/select.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/demo/AnalyseTram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/AnalyseTram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/demo/HelloController.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -48,8 +68,10 @@
   &quot;keyToString&quot;: {
     &quot;Application.AnalyseTram.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Dorian/IdeaProjects/GUISNCF&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -61,6 +83,14 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Dorian\IdeaProjects\GUISNCF\src\main\resources\icons" />
+      <recent name="C:\Users\Dorian\IdeaProjects\GUISNCF" />
+      <recent name="C:\Users\Dorian\IdeaProjects\GUISNCF\src\main" />
+      <recent name="C:\Users\Dorian\IdeaProjects\GUISNCF\src\main\resources" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="AnalyseTram" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.demo.AnalyseTram" />
@@ -84,8 +114,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
       </set>
     </attachedChunks>
   </component>
@@ -105,6 +135,9 @@
       <workItem from="1745339863725" duration="40000" />
       <workItem from="1745340279983" duration="675000" />
       <workItem from="1747211782091" duration="13000" />
+      <workItem from="1747255820865" duration="2027000" />
+      <workItem from="1747257858199" duration="4198000" />
+      <workItem from="1747314420459" duration="5344000" />
     </task>
     <servers />
   </component>
