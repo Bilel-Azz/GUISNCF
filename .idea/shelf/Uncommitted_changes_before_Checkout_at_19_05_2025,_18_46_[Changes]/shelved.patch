@@ -1,0 +1,76 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"f5f8e420-8279-4b2b-b20e-f922ec3a41c9\" name=\"Changes\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/.idea/uiDesigner.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bdd.db\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/db/DatabaseManager.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/model/FilterRule.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/model/TrainInfo.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/serial/SerialTransmitter.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/ui/MainContentPanel.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/ui/ToolbarPanel.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/PortConfigSelectorPanel.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/RoundRectBorder.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/SignalGraphPanel.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/ui/dialogs/AddPortConfigDialog.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/ui/dialogs/EditPortConfigDialog.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/FilterView.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/GraphView.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/GraphViewPanel.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/MessageView.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/MessageViewPanel.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/resources/icons/delete.png\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/resources/icons/edit.png\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/resources/icons/select.png\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/misc.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/pom.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/module-info.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/module-info.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/org/example/demo/AnalyseTram.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/org/example/demo/AnalyseTram.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/org/example/demo/HelloController.java\" beforeDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"generalSettings\">\n      <MavenGeneralSettings>\n        <option name=\"mavenHomeTypeForPersistence\" value=\"WRAPPER\" />\n      </MavenGeneralSettings>\n    </option>\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 5\n}</component>\n  <component name=\"ProjectId\" id=\"2ric5BoTlKFWXWLblmApNFDdogN\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;Application.AnalyseTram.executor&quot;: &quot;Run&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/Dorian/IdeaProjects/GUISNCF&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"C:\\Users\\Dorian\\IdeaProjects\\GUISNCF\\src\\main\\resources\\icons\" />\n      <recent name=\"C:\\Users\\Dorian\\IdeaProjects\\GUISNCF\" />\n      <recent name=\"C:\\Users\\Dorian\\IdeaProjects\\GUISNCF\\src\\main\" />\n      <recent name=\"C:\\Users\\Dorian\\IdeaProjects\\GUISNCF\\src\\main\\resources\" />\n    </key>\n  </component>\n  <component name=\"RunManager\">\n    <configuration name=\"AnalyseTram\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.example.demo.AnalyseTram\" />\n      <module name=\"demo\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"org.example.demo.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Application.AnalyseTram\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SharedIndexes\">\n    <attachedChunks>\n      <set>\n        <option value=\"bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142\" />\n        <option value=\"bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142\" />\n      </set>\n    </attachedChunks>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"f5f8e420-8279-4b2b-b20e-f922ec3a41c9\" name=\"Changes\" comment=\"\" />\n      <created>1737045153407</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1737045153407</updated>\n      <workItem from=\"1737045154475\" duration=\"1625000\" />\n      <workItem from=\"1738143255494\" duration=\"1504000\" />\n      <workItem from=\"1738251427534\" duration=\"3591000\" />\n      <workItem from=\"1738577078613\" duration=\"9000\" />\n      <workItem from=\"1738592280791\" duration=\"1615000\" />\n      <workItem from=\"1745339863725\" duration=\"40000\" />\n      <workItem from=\"1745340279983\" duration=\"675000\" />\n      <workItem from=\"1747211782091\" duration=\"13000\" />\n      <workItem from=\"1747255820865\" duration=\"2027000\" />\n      <workItem from=\"1747257858199\" duration=\"4198000\" />\n      <workItem from=\"1747314420459\" duration=\"5344000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -5,33 +5,7 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="f5f8e420-8279-4b2b-b20e-f922ec3a41c9" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bdd.db" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/db/DatabaseManager.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/model/FilterRule.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/model/TrainInfo.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/serial/SerialTransmitter.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/MainContentPanel.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/ToolbarPanel.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/PortConfigSelectorPanel.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/RoundRectBorder.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/SignalGraphPanel.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/dialogs/AddPortConfigDialog.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/dialogs/EditPortConfigDialog.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/FilterView.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/GraphView.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/GraphViewPanel.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/MessageView.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/MessageViewPanel.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/delete.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/edit.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/select.png" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/demo/AnalyseTram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/AnalyseTram.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/demo/HelloController.java" beforeDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -69,9 +43,9 @@
+     &quot;Application.AnalyseTram.executor&quot;: &quot;Run&quot;,
+     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;bilel&quot;,
+     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Dorian/IdeaProjects/GUISNCF&quot;,
++    &quot;last_opened_file_path&quot;: &quot;/Users/bilelazz/Documents/GitHub/next/GUISNCF&quot;,
+     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+@@ -114,8 +88,8 @@
+   <component name="SharedIndexes">
+     <attachedChunks>
+       <set>
+-        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
++        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
++        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+       </set>
+     </attachedChunks>
+   </component>
+@@ -138,6 +112,8 @@
+       <workItem from="1747255820865" duration="2027000" />
+       <workItem from="1747257858199" duration="4198000" />
+       <workItem from="1747314420459" duration="5344000" />
++      <workItem from="1747661955323" duration="1140000" />
++      <workItem from="1747672561006" duration="301000" />
+     </task>
+     <servers />
+   </component>

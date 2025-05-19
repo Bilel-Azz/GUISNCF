@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 public class SerialTransmitter {
 
     private static volatile boolean listeningActive = false;
-    private static volatile boolean simulationMode = true;
+    private static volatile boolean simulationMode = false;
     private static volatile boolean stopSimulation = false;
 
     public static void setSimulationMode(boolean enabled) {
