@@ -5,33 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5f8e420-8279-4b2b-b20e-f922ec3a41c9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bdd.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/db/DatabaseManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/model/FilterRule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/model/TrainInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/serial/SerialTransmitter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/MainContentPanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/ToolbarPanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/PortConfigSelectorPanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/RoundRectBorder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/SignalGraphPanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/dialogs/AddPortConfigDialog.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/dialogs/EditPortConfigDialog.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/FilterView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/GraphView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/GraphViewPanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/MessageView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/MessageViewPanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/delete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/edit.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/select.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_05_2025,_09_11_[Changes]/bdd.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_05_2025,_09_11_[Changes]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_05_2025,_09_11_[Changes]1/bdd.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_05_2025,_09_11_[Changes]1/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_05_2025,_09_12_[Changes]/bdd.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_05_2025,_09_12_[Changes]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_05_2025__09_11__Changes_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_05_2025__09_11__Changes_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_20_05_2025__09_12__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/demo/AnalyseTram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/AnalyseTram.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/demo/HelloController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bdd.db" beforeDir="false" afterPath="$PROJECT_DIR$/bdd.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/demo/serial/SerialTransmitter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/serial/SerialTransmitter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/MainContentPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/MainContentPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/ToolbarPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/ToolbarPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/PortConfigSelectorPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/PortConfigSelectorPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/RoundRectBorder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/components/RoundRectBorder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/FilterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/ui/views/FilterView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,25 +54,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.AnalyseTram.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Dorian/IdeaProjects/GUISNCF&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.AnalyseTram.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "bilel",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Dorian/IdeaProjects/GUISNCF",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Dorian\IdeaProjects\GUISNCF\src\main\resources\icons" />
