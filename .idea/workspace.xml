@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f5f8e420-8279-4b2b-b20e-f922ec3a41c9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bdd.db" beforeDir="false" afterPath="$PROJECT_DIR$/bdd.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/demo/serial/SerialTransmitter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/demo/serial/SerialTransmitter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,6 +15,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="bilel" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MavenImportPreferences">
@@ -71,6 +78,14 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -88,6 +103,7 @@
       <workItem from="1745340279983" duration="675000" />
       <workItem from="1747211782091" duration="13000" />
       <workItem from="1747212366383" duration="423000" />
+      <workItem from="1747723557320" duration="147000" />
     </task>
     <servers />
   </component>
