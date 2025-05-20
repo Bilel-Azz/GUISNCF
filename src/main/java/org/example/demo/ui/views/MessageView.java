@@ -123,6 +123,8 @@ public class MessageView extends JPanel {
         StyledDocument doc = pane.getStyledDocument();
         try {
             doc.insertString(doc.getLength(), text, null);
+            // Faire défiler vers le bas
+            pane.setCaretPosition(doc.getLength());
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
@@ -219,6 +221,12 @@ public class MessageView extends JPanel {
                             for (int i = byteStart; i <= byteEnd && i < hexTokens.length; i++) {
                                 int hexTokenOffset = hexStartOffset + getHexOffset(hexTokens, i);
                                 hexHighlighter.addHighlight(hexTokenOffset, hexTokenOffset + hexTokens[i].length(), new DefaultHighlighter.DefaultHighlightPainter(filter.color));
+                                
+                                // Mettre en évidence le caractère correspondant dans la vue texte
+                                if (i < entry.text.length()) {
+                                    textHighlighter.addHighlight(textStartOffset + i, textStartOffset + i + 1, 
+                                        new DefaultHighlighter.DefaultHighlightPainter(filter.color));
+                                }
                             }
                         }
                     } else if (filter.pattern.matches("[0-9A-Fa-f]{2}")) {
@@ -231,6 +239,39 @@ public class MessageView extends JPanel {
                                 if (bitIdx < entry.bits.length()) {
                                     int bitEnd = Math.min(bitIdx + 8, entry.bits.length());
                                     bitsHighlighter.addHighlight(bitStartOffset + bitIdx, bitStartOffset + bitEnd, new DefaultHighlighter.DefaultHighlightPainter(filter.color));
+                                }
+
+                                // Mettre en évidence le caractère correspondant dans la vue texte
+                                if (i < entry.text.length()) {
+                                    textHighlighter.addHighlight(textStartOffset + i, textStartOffset + i + 1, 
+                                        new DefaultHighlighter.DefaultHighlightPainter(filter.color));
+                                }
+                            }
+                        }
+                    } else {
+                        // Recherche de texte dans la vue texte
+                        int textIdx = entry.text.indexOf(filter.pattern);
+                        if (textIdx >= 0) {
+                            textHighlighter.addHighlight(textStartOffset + textIdx, 
+                                textStartOffset + textIdx + filter.pattern.length(), 
+                                new DefaultHighlighter.DefaultHighlightPainter(filter.color));
+                            
+                            // Mettre en évidence les bits et hex correspondants
+                            int byteStart = textIdx;
+                            int byteEnd = textIdx + filter.pattern.length() - 1;
+                            
+                            // Mettre en évidence les octets hexadécimaux correspondants
+                            for (int i = byteStart; i <= byteEnd && i < hexTokens.length; i++) {
+                                int hexTokenOffset = hexStartOffset + getHexOffset(hexTokens, i);
+                                hexHighlighter.addHighlight(hexTokenOffset, hexTokenOffset + hexTokens[i].length(), 
+                                    new DefaultHighlighter.DefaultHighlightPainter(filter.color));
+                                
+                                // Mettre en évidence les bits correspondants
+                                int bitIdx = i * 8;
+                                if (bitIdx < entry.bits.length()) {
+                                    int bitEnd = Math.min(bitIdx + 8, entry.bits.length());
+                                    bitsHighlighter.addHighlight(bitStartOffset + bitIdx, bitStartOffset + bitEnd, 
+                                        new DefaultHighlighter.DefaultHighlightPainter(filter.color));
                                 }
                             }
                         }

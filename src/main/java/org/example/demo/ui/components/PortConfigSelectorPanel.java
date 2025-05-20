@@ -297,6 +297,8 @@ public class PortConfigSelectorPanel extends JPanel {
                     new RoundRectBorder(6, LISTEN_BUTTON_COLOR),
                     BorderFactory.createEmptyBorder(6, 12, 6, 12)
             ));
+            // Réactiver le bouton d'envoi
+            sendButton.setEnabled(true);
             showInfo("Écoute arrêtée.");
         } else {
             if (selectedConfigId == -1) {
@@ -318,6 +320,8 @@ public class PortConfigSelectorPanel extends JPanel {
                     new RoundRectBorder(6, LISTEN_ACTIVE_COLOR),
                     BorderFactory.createEmptyBorder(6, 12, 6, 12)
             ));
+            // Désactiver le bouton d'envoi
+            sendButton.setEnabled(false);
 
             listenThread = new Thread(() -> {
                 try {

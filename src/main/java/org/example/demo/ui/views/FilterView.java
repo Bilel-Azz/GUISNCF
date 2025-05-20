@@ -49,6 +49,12 @@ public class FilterView extends JPanel {
         // Panneau de recherche
         JPanel searchPanel = createSearchPanel();
 
+        // Panneau pour contenir l'en-tête et la recherche
+        JPanel topPanel = new JPanel(new BorderLayout(0, 10));
+        topPanel.setBackground(BACKGROUND_COLOR);
+        topPanel.add(headerPanel, BorderLayout.NORTH);
+        topPanel.add(searchPanel, BorderLayout.CENTER);
+
         // Panneau principal pour la liste des filtres
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(BACKGROUND_COLOR);
@@ -78,8 +84,7 @@ public class FilterView extends JPanel {
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
         // Ajouter les panneaux à la vue principale
-        add(headerPanel, BorderLayout.NORTH);
-        add(searchPanel, BorderLayout.NORTH);
+        add(topPanel, BorderLayout.NORTH);
         add(mainPanel, BorderLayout.CENTER);
 
         // Charger les filtres depuis la base de données
@@ -108,7 +113,7 @@ public class FilterView extends JPanel {
         addFilterButton.setFont(BUTTON_FONT);
         addFilterButton.setFocusPainted(false);
         addFilterButton.setBackground(ACCENT_COLOR);
-        addFilterButton.setForeground(Color.WHITE);
+        addFilterButton.setForeground(Color.BLACK);
         addFilterButton.setBorder(BorderFactory.createCompoundBorder(
                 new RoundRectBorder(6, ACCENT_COLOR),
                 BorderFactory.createEmptyBorder(8, 15, 8, 15)

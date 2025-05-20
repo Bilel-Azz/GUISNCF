@@ -1,4 +1,3 @@
-// SerialTransmitter.java
 package org.example.demo.serial;
 
 import com.fazecast.jSerialComm.SerialPort;
@@ -91,10 +90,40 @@ public class SerialTransmitter {
                 Thread.sleep(300);
             }
 
-            System.out.println("📡 En attente de trames RS232 depuis ESP32...");
-
-            long lastReceived = System.currentTimeMillis();
+            // Attente du READY_TO_SNIFF
+            System.out.println("📡 Attente de confirmation ESP32 (READY_TO_SNIFF)...");
+            long start = System.currentTimeMillis();
             StringBuilder buffer = new StringBuilder();
+            boolean espReady = false;
+
+            while (System.currentTimeMillis() - start < 5000) {
+                if (in.available() > 0) {
+                    int c = in.read();
+                    if (c == '\n') {
+                        String lineRead = buffer.toString().trim();
+                        buffer.setLength(0);
+                        System.out.println("📥 ESP32 dit : " + lineRead);
+                        if (lineRead.contains("READY_TO_SNIFF")) {
+                            espReady = true;
+                            break;
+                        }
+                    } else {
+                        buffer.append((char) c);
+                    }
+                } else {
+                    Thread.sleep(50);
+                }
+            }
+
+            /*if (!espReady) {
+                System.err.println("⚠️ Aucun message READY_TO_SNIFF reçu de l’ESP32.");
+                serialPort.closePort();
+                return;
+            }*/
+
+            System.out.println("✅ ESP32 prêt. Démarrage de la réception des trames...");
+            buffer.setLength(0);
+            long lastReceived = System.currentTimeMillis();
 
             while (listeningActive) {
                 if (in.available() > 0) {
@@ -105,12 +134,12 @@ public class SerialTransmitter {
                         onTrameReceived.accept(line);
                         saveTrameToDatabase(line, convertBitsToHex(line));
                         buffer.setLength(0);
+                        lastReceived = System.currentTimeMillis();
                     } else {
                         buffer.append((char) c);
                     }
-                    lastReceived = System.currentTimeMillis();
                 } else {
-                    if (autoStopAfterTimeout && System.currentTimeMillis() - lastReceived > 10_000) {
+                    if (autoStopAfterTimeout && System.currentTimeMillis() - lastReceived > 10000) {
                         System.out.println("⏱️ Inactivité > 10s. Fermeture du port.");
                         break;
                     }
@@ -174,3 +203,4 @@ public class SerialTransmitter {
         }
     }
 }
+ 

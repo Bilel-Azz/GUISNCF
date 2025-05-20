@@ -49,7 +49,7 @@ public class AddPortConfigDialog extends JDialog {
                 int databits = Integer.parseInt(databitsField.getText());
                 int stopbits = Integer.parseInt(stopbitsField.getText());
 
-                Connection conn = DriverManager.getConnection("jdbc:sqlite:");
+                Connection conn = DriverManager.getConnection("jdbc:sqlite:bdd.db");
 
                 String sql = "INSERT INTO port_config (baudrate, parity, databits, stopbits) VALUES (?, ?, ?, ?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
