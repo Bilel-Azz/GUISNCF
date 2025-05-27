@@ -22,9 +22,14 @@ public class GraphView extends JPanel {
             }
         }
         Container parent = getParent();
-        if (parent != null) {
-            parent.revalidate();
+        if (parent instanceof JViewport) {
+            JViewport viewport = (JViewport) parent;
+            JScrollPane scrollPane = (JScrollPane) viewport.getParent();
+            // Calculer la nouvelle position de défilement
+            int maxX = getPreferredSize().width - viewport.getWidth();
+            viewport.setViewPosition(new Point(maxX, 0));
         }
+        revalidate();
         repaint();
     }
 

@@ -18,16 +18,22 @@ import java.util.regex.Pattern;
 public class MessageView extends JPanel {
     private JTextPane bitPane;
     private JTextPane hexPane;
+    private JTextPane textPane;
     private final JButton toggleSimulationBtn;
+    private final JButton toggleViewBtn;
     private final List<TrameEntry> trames = new ArrayList<>();
+    private boolean showText = false;
 
     public MessageView() {
         setLayout(new BorderLayout());
 
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         toggleSimulationBtn = new JButton(getButtonLabel());
         toggleSimulationBtn.addActionListener(e -> toggleSimulation());
-
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        toggleViewBtn = new JButton("Vue: Hex");
+        toggleViewBtn.addActionListener(e -> toggleView());
+        
+        topPanel.add(toggleViewBtn);
         topPanel.add(toggleSimulationBtn);
 
         bitPane = new JTextPane();
@@ -38,6 +44,10 @@ public class MessageView extends JPanel {
         hexPane.setFont(new Font("Monospaced", Font.PLAIN, 12));
         hexPane.setEditable(false);
 
+        textPane = new JTextPane();
+        textPane.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        textPane.setEditable(false);
+
         JPanel bitPanel = new JPanel(new BorderLayout());
         bitPanel.add(new JLabel("Bits reçus"), BorderLayout.NORTH);
         bitPanel.add(new JScrollPane(bitPane), BorderLayout.CENTER);
@@ -46,25 +56,75 @@ public class MessageView extends JPanel {
         hexPanel.add(new JLabel("Traduction hexadécimale"), BorderLayout.NORTH);
         hexPanel.add(new JScrollPane(hexPane), BorderLayout.CENTER);
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, bitPanel, hexPanel);
+        JPanel textPanel = new JPanel(new BorderLayout());
+        textPanel.add(new JLabel("Traduction texte"), BorderLayout.NORTH);
+        textPanel.add(new JScrollPane(textPane), BorderLayout.CENTER);
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, bitPanel, showText ? textPanel : hexPanel);
         splitPane.setResizeWeight(0.5);
 
         add(topPanel, BorderLayout.NORTH);
         add(splitPane, BorderLayout.CENTER);
     }
 
+    private void toggleView() {
+        showText = !showText;
+        toggleViewBtn.setText(showText ? "Vue: Texte" : "Vue: Hex");
+        refreshView();
+    }
+
+    private void refreshView() {
+        JSplitPane splitPane = (JSplitPane) getComponent(1);
+        JPanel rightPanel = (JPanel) splitPane.getRightComponent();
+        rightPanel.removeAll();
+        
+        if (showText) {
+            rightPanel.add(new JLabel("Traduction texte"), BorderLayout.NORTH);
+            rightPanel.add(new JScrollPane(textPane), BorderLayout.CENTER);
+        } else {
+            rightPanel.add(new JLabel("Traduction hexadécimale"), BorderLayout.NORTH);
+            rightPanel.add(new JScrollPane(hexPane), BorderLayout.CENTER);
+        }
+        
+        rightPanel.revalidate();
+        rightPanel.repaint();
+    }
+
     public void appendMessage(String bits) {
         String hex = convertBitsToHex(bits);
-        trames.add(new TrameEntry(bits, hex));
+        String text = convertHexToText(hex);
+        trames.add(new TrameEntry(bits, hex, text));
         appendText(bitPane, bits + "\n");
         appendText(hexPane, hex + "\n");
+        appendText(textPane, text + "\n");
         saveTrameToDatabase(bits, hex);
+    }
+
+    private String convertHexToText(String hex) {
+        StringBuilder text = new StringBuilder();
+        String[] hexBytes = hex.split(" ");
+        for (String hexByte : hexBytes) {
+            try {
+                int value = Integer.parseInt(hexByte, 16);
+                // Vérifier si c'est un caractère ASCII imprimable
+                if (value >= 32 && value <= 126) {
+                    text.append((char) value);
+                } else {
+                    text.append(".");
+                }
+            } catch (NumberFormatException e) {
+                text.append(".");
+            }
+        }
+        return text.toString();
     }
 
     private void appendText(JTextPane pane, String text) {
         StyledDocument doc = pane.getStyledDocument();
         try {
             doc.insertString(doc.getLength(), text, null);
+            // Faire défiler vers le bas
+            pane.setCaretPosition(doc.getLength());
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
@@ -73,14 +133,16 @@ public class MessageView extends JPanel {
     public void clearMessages() {
         bitPane.setText("");
         hexPane.setText("");
+        textPane.setText("");
         trames.clear();
     }
 
     private static class TrameEntry {
-        String bits, hex;
-        TrameEntry(String bits, String hex) {
+        String bits, hex, text;
+        TrameEntry(String bits, String hex, String text) {
             this.bits = bits;
             this.hex = hex;
+            this.text = text;
         }
     }
 
@@ -121,18 +183,23 @@ public class MessageView extends JPanel {
     public void refreshWithFilters(List<FilterRule> activeFilters) {
         bitPane.setText("");
         hexPane.setText("");
+        textPane.setText("");
         Highlighter bitsHighlighter = bitPane.getHighlighter();
         Highlighter hexHighlighter = hexPane.getHighlighter();
+        Highlighter textHighlighter = textPane.getHighlighter();
         bitsHighlighter.removeAllHighlights();
         hexHighlighter.removeAllHighlights();
+        textHighlighter.removeAllHighlights();
 
         try {
             for (TrameEntry entry : trames) {
                 int bitStartOffset = bitPane.getDocument().getLength();
                 int hexStartOffset = hexPane.getDocument().getLength();
+                int textStartOffset = textPane.getDocument().getLength();
 
                 appendText(bitPane, entry.bits + "\n");
                 appendText(hexPane, entry.hex + "\n");
+                appendText(textPane, entry.text + "\n");
 
                 List<String> bitsChunks = new ArrayList<>();
                 for (int i = 0; i < entry.bits.length(); i += 8) {
@@ -154,6 +221,12 @@ public class MessageView extends JPanel {
                             for (int i = byteStart; i <= byteEnd && i < hexTokens.length; i++) {
                                 int hexTokenOffset = hexStartOffset + getHexOffset(hexTokens, i);
                                 hexHighlighter.addHighlight(hexTokenOffset, hexTokenOffset + hexTokens[i].length(), new DefaultHighlighter.DefaultHighlightPainter(filter.color));
+                                
+                                // Mettre en évidence le caractère correspondant dans la vue texte
+                                if (i < entry.text.length()) {
+                                    textHighlighter.addHighlight(textStartOffset + i, textStartOffset + i + 1, 
+                                        new DefaultHighlighter.DefaultHighlightPainter(filter.color));
+                                }
                             }
                         }
                     } else if (filter.pattern.matches("[0-9A-Fa-f]{2}")) {
@@ -166,6 +239,39 @@ public class MessageView extends JPanel {
                                 if (bitIdx < entry.bits.length()) {
                                     int bitEnd = Math.min(bitIdx + 8, entry.bits.length());
                                     bitsHighlighter.addHighlight(bitStartOffset + bitIdx, bitStartOffset + bitEnd, new DefaultHighlighter.DefaultHighlightPainter(filter.color));
+                                }
+
+                                // Mettre en évidence le caractère correspondant dans la vue texte
+                                if (i < entry.text.length()) {
+                                    textHighlighter.addHighlight(textStartOffset + i, textStartOffset + i + 1, 
+                                        new DefaultHighlighter.DefaultHighlightPainter(filter.color));
+                                }
+                            }
+                        }
+                    } else {
+                        // Recherche de texte dans la vue texte
+                        int textIdx = entry.text.indexOf(filter.pattern);
+                        if (textIdx >= 0) {
+                            textHighlighter.addHighlight(textStartOffset + textIdx, 
+                                textStartOffset + textIdx + filter.pattern.length(), 
+                                new DefaultHighlighter.DefaultHighlightPainter(filter.color));
+                            
+                            // Mettre en évidence les bits et hex correspondants
+                            int byteStart = textIdx;
+                            int byteEnd = textIdx + filter.pattern.length() - 1;
+                            
+                            // Mettre en évidence les octets hexadécimaux correspondants
+                            for (int i = byteStart; i <= byteEnd && i < hexTokens.length; i++) {
+                                int hexTokenOffset = hexStartOffset + getHexOffset(hexTokens, i);
+                                hexHighlighter.addHighlight(hexTokenOffset, hexTokenOffset + hexTokens[i].length(), 
+                                    new DefaultHighlighter.DefaultHighlightPainter(filter.color));
+                                
+                                // Mettre en évidence les bits correspondants
+                                int bitIdx = i * 8;
+                                if (bitIdx < entry.bits.length()) {
+                                    int bitEnd = Math.min(bitIdx + 8, entry.bits.length());
+                                    bitsHighlighter.addHighlight(bitStartOffset + bitIdx, bitStartOffset + bitEnd, 
+                                        new DefaultHighlighter.DefaultHighlightPainter(filter.color));
                                 }
                             }
                         }
