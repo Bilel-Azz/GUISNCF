@@ -9,6 +9,6 @@ module org.example.demo {
     requires java.sql;
     requires com.fazecast.jSerialComm;
 
-    opens org.example.demo to javafx.fxml;
-    exports org.example.demo;
+    opens org.sncf.gui to javafx.fxml;
+    exports org.sncf.gui;
 }
