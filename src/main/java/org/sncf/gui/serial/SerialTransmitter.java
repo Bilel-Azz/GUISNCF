@@ -1,6 +1,7 @@
 package org.sncf.gui.serial;
 
 import com.fazecast.jSerialComm.SerialPort;
+import org.sncf.gui.services.DatabaseManager;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -211,7 +212,7 @@ public class SerialTransmitter {
      * @param hex  trame en représentation hexadécimale.
      */
     private static void saveTrameToDatabase(String bits, String hex) {
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:bdd.db")) {
+        try (Connection conn = DriverManager.getConnection(DatabaseManager.getDbUrl())) {
             String insertSQL = "INSERT INTO frame_capture (raw_bits, raw_hexa, raw_text) VALUES (?, ?, ?)";
             try (PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
                 stmt.setString(1, bits);

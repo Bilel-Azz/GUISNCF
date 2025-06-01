@@ -1,5 +1,6 @@
 package org.sncf.gui;
 
+import org.sncf.gui.services.DatabaseManager;
 import org.sncf.gui.ui.ToolbarPanel;
 import org.sncf.gui.ui.views.FilterView;
 import org.sncf.gui.ui.views.GraphView;
@@ -121,11 +122,20 @@ public class AnalyseTram extends JFrame {
         SwingUtilities.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+                DatabaseManager.initializeDatabase();
+
+                AnalyseTram app = new AnalyseTram();
+                app.setVisible(true);
+
             } catch (Exception e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(null,
+                        "Erreur d'initialisation :\n" + e.getMessage(),
+                        "Erreur critique",
+                        JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
             }
-            AnalyseTram app = new AnalyseTram();
-            app.setVisible(true);
         });
     }
 }

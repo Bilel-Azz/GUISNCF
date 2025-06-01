@@ -2,6 +2,7 @@ package org.sncf.gui.ui.components;
 
 import com.fazecast.jSerialComm.SerialPort;
 import org.sncf.gui.serial.SerialTransmitter;
+import org.sncf.gui.services.DatabaseManager;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -398,7 +399,7 @@ public class PortConfigSelectorPanel extends JPanel {
     public void reloadConfigs() {
         configMenu.removeAll();
 
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:bdd.db")) {
+        try (Connection conn = DriverManager.getConnection(DatabaseManager.getDbUrl())) {
             String query = "SELECT * FROM port_config ORDER BY id";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -455,7 +456,7 @@ public class PortConfigSelectorPanel extends JPanel {
                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
                     if (confirm == JOptionPane.YES_OPTION) {
-                        try (Connection deleteConn = DriverManager.getConnection("jdbc:sqlite:bdd.db");
+                        try (Connection deleteConn = DriverManager.getConnection(DatabaseManager.getDbUrl());
                              PreparedStatement ps = deleteConn.prepareStatement("DELETE FROM port_config WHERE id = ?")) {
 
                             ps.setInt(1, id);
@@ -539,7 +540,7 @@ public class PortConfigSelectorPanel extends JPanel {
      * @return liste de lignes de configuration pour l’ESP32.
      */
     private List<String> getConfigLinesById(int id) {
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:bdd.db")) {
+        try (Connection conn = DriverManager.getConnection(DatabaseManager.getDbUrl())) {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM port_config WHERE id = ?");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();

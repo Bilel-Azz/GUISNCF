@@ -1,4 +1,6 @@
 package org.sncf.gui.ui.dialogs;
+import org.sncf.gui.services.DatabaseManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
@@ -72,7 +74,7 @@ public class AddPortConfigDialog extends JDialog {
                 int databits = Integer.parseInt(databitsField.getText());
                 int stopbits = Integer.parseInt(stopbitsField.getText());
 
-                Connection conn = DriverManager.getConnection("jdbc:sqlite:bdd.db");
+                Connection conn = DriverManager.getConnection(DatabaseManager.getDbUrl());
 
                 String sql = "INSERT INTO port_config (baudrate, parity, databits, stopbits) VALUES (?, ?, ?, ?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);

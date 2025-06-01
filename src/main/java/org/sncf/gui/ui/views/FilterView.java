@@ -271,7 +271,7 @@ public class FilterView extends JPanel {
     private void loadFilters() {
         filterListPanel.removeAll();
 
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:bdd.db")) {
+        try (Connection conn = DriverManager.getConnection(DatabaseManager.getDbUrl())) {
             String query = "SELECT * FROM custom_filter ORDER BY name";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -409,7 +409,7 @@ public class FilterView extends JPanel {
         );
 
         if (confirm == JOptionPane.YES_OPTION) {
-            try (Connection conn = DriverManager.getConnection("jdbc:sqlite:bdd.db")) {
+            try (Connection conn = DriverManager.getConnection(DatabaseManager.getDbUrl())) {
                 PreparedStatement ps = conn.prepareStatement("DELETE FROM custom_filter WHERE id = ?");
                 ps.setInt(1, id);
                 ps.executeUpdate();
@@ -578,7 +578,7 @@ public class FilterView extends JPanel {
                 Color.decode(color);
 
                 // Ajouter le filtre à la base de données
-                try (Connection conn = DriverManager.getConnection("jdbc:sqlite:bdd.db")) {
+                try (Connection conn = DriverManager.getConnection(DatabaseManager.getDbUrl())) {
                     PreparedStatement ps = conn.prepareStatement("INSERT INTO custom_filter (name, pattern, color) VALUES (?, ?, ?)");
                     ps.setString(1, name);
                     ps.setString(2, pattern);
@@ -712,7 +712,7 @@ public class FilterView extends JPanel {
                 Color.decode(newColor);
 
                 // Mettre à jour le filtre dans la base de données
-                try (Connection conn = DriverManager.getConnection("jdbc:sqlite:bdd.db")) {
+                try (Connection conn = DriverManager.getConnection(DatabaseManager.getDbUrl())) {
                     PreparedStatement ps = conn.prepareStatement("UPDATE custom_filter SET name=?, pattern=?, color=? WHERE id=?");
                     ps.setString(1, newName);
                     ps.setString(2, newPattern);

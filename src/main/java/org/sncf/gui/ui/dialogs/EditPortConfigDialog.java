@@ -1,5 +1,7 @@
 package org.sncf.gui.ui.dialogs;
 
+import org.sncf.gui.services.DatabaseManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
@@ -46,7 +48,7 @@ public class EditPortConfigDialog extends JDialog {
         Component[] fields = {baudrateField, parityBox, databitsField, stopbitsField};
 
         // Pré-remplissage des champs depuis la base de données
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:bdd.db")) {
+        try (Connection conn = DriverManager.getConnection(DatabaseManager.getDbUrl())) {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM port_config WHERE id = ?");
             ps.setInt(1, configId);
             ResultSet rs = ps.executeQuery();
@@ -80,7 +82,7 @@ public class EditPortConfigDialog extends JDialog {
         add(saveBtn, gbc);
 
         saveBtn.addActionListener(e -> {
-            try (Connection conn = DriverManager.getConnection("jdbc:sqlite:bdd.db")) {
+            try (Connection conn = DriverManager.getConnection(DatabaseManager.getDbUrl())) {
                 PreparedStatement ps = conn.prepareStatement(
                         "UPDATE port_config SET baudrate=?, parity=?, databits=?, stopbits=? WHERE id=?");
                 ps.setInt(1, Integer.parseInt(baudrateField.getText()));
