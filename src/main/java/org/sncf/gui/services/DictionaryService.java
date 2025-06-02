@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 /**
  * Service pour gérer un dictionnaire de correspondances entre motifs hexadécimaux
- * et leurs descriptions textuelles. Permet l'ajout, la recherche, la conversion,
+ * et leurs traductions textuelles. Permet l'ajout, la recherche, la conversion,
  * et le chargement complet du dictionnaire depuis une base SQLite.
  */
 public class DictionaryService {
@@ -26,15 +26,15 @@ public class DictionaryService {
 
     /**
      * Ajoute une nouvelle entrée dans le dictionnaire avec un motif hexadécimal
-     * et une description associée.
+     * et une traduction associée.
      *
      * @param hex   motif hexadécimal (ex: "4A 2F").
-     * @param label description ou étiquette à associer.
+     * @param label traduction ou étiquette à associer.
      * @throws SQLException si une erreur survient lors de l'insertion.
      */
     public void addEntry(String hex, String label) throws SQLException {
         try (Connection conn = db.getConnection()) {
-            String sql = "INSERT INTO dictionary (hex_pattern, description) VALUES (?, ?)";
+            String sql = "INSERT INTO dictionary (hex_pattern, traduction) VALUES (?, ?)";
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setString(1, hex.trim());
                 ps.setString(2, label.trim());
@@ -44,21 +44,21 @@ public class DictionaryService {
     }
 
     /**
-     * Recherche une description dans le dictionnaire à partir d'un motif hexadécimal.
+     * Recherche une traduction dans le dictionnaire à partir d'un motif hexadécimal.
      * Les espaces et la casse sont ignorés.
      *
      * @param hex motif hexadécimal à rechercher.
-     * @return la description correspondante si trouvée, sinon {@code null}.
+     * @return la traduction correspondante si trouvée, sinon {@code null}.
      */
     public String lookup(String hex) {
         String normalized = hex.replaceAll("\\s+", "").toUpperCase();
         try (Connection conn = db.getConnection()) {
-            String sql = "SELECT description FROM dictionary WHERE REPLACE(UPPER(hex_pattern), ' ', '') = ?";
+            String sql = "SELECT traduction FROM dictionary WHERE REPLACE(UPPER(hex_pattern), ' ', '') = ?";
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setString(1, normalized);
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
-                    return rs.getString("description");
+                    return rs.getString("traduction");
                 }
             }
         } catch (SQLException e) {
@@ -84,7 +84,7 @@ public class DictionaryService {
         // Charger le dictionnaire dans une map
         Map<String, String> dict = new HashMap<>();
         for (DictionaryService.DictionaryEntry entry : getAllEntries()) {
-            dict.put(entry.hexPattern.trim().toUpperCase(), entry.description);
+            dict.put(entry.hexPattern.trim().toUpperCase(), entry.traduction);
         }
 
         int i = 0;
@@ -135,12 +135,12 @@ public class DictionaryService {
     public List<DictionaryEntry> loadAll() {
         List<DictionaryEntry> list = new ArrayList<>();
         try (Connection conn = db.getConnection()) {
-            String sql = "SELECT hex_pattern, description FROM dictionary";
+            String sql = "SELECT hex_pattern, traduction FROM dictionary";
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     String pattern = rs.getString("hex_pattern").replaceAll("\\s+", "").toUpperCase();
-                    String desc = rs.getString("description");
+                    String desc = rs.getString("traduction");
                     list.add(new DictionaryEntry(pattern, desc));
                 }
             }
@@ -178,9 +178,9 @@ public class DictionaryService {
         List<DictionaryEntry> entries = new ArrayList<>();
         try (Connection conn = db.getConnection();
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT hex_pattern, description FROM dictionary")) {
+             ResultSet rs = stmt.executeQuery("SELECT hex_pattern, traduction FROM dictionary")) {
             while (rs.next()) {
-                entries.add(new DictionaryEntry(rs.getString("hex_pattern"), rs.getString("description")));
+                entries.add(new DictionaryEntry(rs.getString("hex_pattern"), rs.getString("traduction")));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Erreur lors de la récupération du dictionnaire", e);
@@ -190,7 +190,7 @@ public class DictionaryService {
 
     /**
      * Représente une entrée du dictionnaire, contenant un motif hexadécimal
-     * et sa description associée.
+     * et sa traduction associée.
      */
     public static class DictionaryEntry {
         /**
@@ -199,19 +199,19 @@ public class DictionaryService {
         public final String hexPattern;
 
         /**
-         * Description associée à l’entrée.
+         * Traduction associée à l’entrée.
          */
-        public final String description;
+        public final String traduction;
 
         /**
          * Construit une nouvelle entrée du dictionnaire.
          *
          * @param hexPattern  motif hexadécimal.
-         * @param description description associée.
+         * @param traduction traduction associée.
          */
-        public DictionaryEntry(String hexPattern, String description) {
+        public DictionaryEntry(String hexPattern, String traduction) {
             this.hexPattern = hexPattern;
-            this.description = description;
+            this.traduction = traduction;
         }
     }
 }

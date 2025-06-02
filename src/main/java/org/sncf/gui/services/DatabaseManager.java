@@ -49,7 +49,7 @@ public class DatabaseManager {
                 if (in != null) {
                     Files.copy(in, dbFile);
                 } else {
-                    System.err.println("⚠️ Aucune BDD modèle embarquée trouvée, création à vide.");
+                    System.err.println("Aucune BDD modèle embarquée trouvée, création à vide.");
                 }
             }
         } catch (Exception e) {
@@ -75,14 +75,14 @@ public class DatabaseManager {
             }
 
             if (Files.notExists(dbFile)) {
-                System.out.println("📂 Création de la base de données...");
+                System.out.println("Création de la base de données...");
 
                 try (InputStream in = DatabaseManager.class.getResourceAsStream("/bdd.db")) {
                     if (in != null) {
                         Files.copy(in, dbFile, StandardCopyOption.REPLACE_EXISTING);
-                        System.out.println("✅ BDD copiée depuis les ressources : " + dbFile);
+                        System.out.println("BDD copiée depuis les ressources : " + dbFile);
                     } else {
-                        System.out.println("⚠️ Aucun modèle trouvé, création d'une BDD vide avec les tables nécessaires...");
+                        System.out.println("Aucun modèle trouvé, création d'une BDD vide avec les tables nécessaires...");
                         createEmptyDatabase(dbFile.toString());
                     }
                 }
@@ -140,7 +140,7 @@ public class DatabaseManager {
             stmt.executeUpdate("""
                 CREATE TABLE IF NOT EXISTS dictionary (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    description TEXT NOT NULL,
+                    traduction TEXT NOT NULL,
                     hex_pattern TEXT NOT NULL
                 );
             """);

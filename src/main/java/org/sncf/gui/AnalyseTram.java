@@ -73,7 +73,7 @@ public class AnalyseTram extends JFrame {
         ToolbarPanel toolbar = new ToolbarPanel(
                 () -> {
                     messageView.clearMessages();
-                    graphView.clear(); // 👈 AJOUT ICI
+                    graphView.clear();
                 },
                 bitLine -> {
                     messageView.appendMessage(bitLine);

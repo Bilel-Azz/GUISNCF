@@ -112,7 +112,7 @@ public class MessageView extends JPanel {
         for (int i = 0; i < entries.size(); i++) {
             DictionaryService.DictionaryEntry entry = entries.get(i);
             data[i][0] = entry.hexPattern;
-            data[i][1] = entry.description;
+            data[i][1] = entry.traduction;
         }
 
         JTable table = new JTable(data, columns);
