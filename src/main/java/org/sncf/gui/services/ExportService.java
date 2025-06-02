@@ -77,7 +77,7 @@ public class ExportService {
      * @param input la chaîne à échapper.
      * @return chaîne sécurisée pour une inclusion dans du JSON.
      */
-    private String escape(String input) {
+    String escape(String input) {
         return input.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 }
