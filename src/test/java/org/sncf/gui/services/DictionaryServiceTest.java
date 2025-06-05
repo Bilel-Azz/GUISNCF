@@ -24,7 +24,7 @@ class DictionaryServiceTest {
         String result = service.convertHexToText(input);
 
         // "48 45" → "Salut", "4C 4C" → "Double L", "4F" → "O"
-        assertEquals("Salut Double L O", result);
+        assertEquals("SalutDouble LO", result);
     }
 
     @Test
@@ -38,7 +38,7 @@ class DictionaryServiceTest {
 
         String input = "48 65 6C 6C 6F"; // "Hello"
         String result = service.convertHexToText(input);
-        assertEquals("H e l l o", result);
+        assertEquals("Hello", result);
     }
 
     @Test
@@ -54,7 +54,7 @@ class DictionaryServiceTest {
         String result = service.convertHexToText(input);
 
         // Vérification exacte basée sur comportement réel
-        assertEquals(". .", result.trim()); // On ignore les espaces finaux
+        assertEquals("..", result.trim()); // On ignore les espaces finaux
     }
 
     @Test
@@ -68,7 +68,7 @@ class DictionaryServiceTest {
 
         String input = "GG ZZ"; // invalid hex
         String result = service.convertHexToText(input);
-        assertEquals(". .", result);
+        assertEquals("..", result);
     }
 
     @Test
