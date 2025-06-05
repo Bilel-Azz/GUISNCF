@@ -11,6 +11,7 @@ import java.awt.event.*;
 import java.sql.*;
 import java.util.List;
 import java.util.function.Consumer;
+import java.net.URL;
 
 /**
  * Panneau graphique Swing permettant à l’utilisateur de :
@@ -174,7 +175,7 @@ public class PortConfigSelectorPanel extends JPanel {
      * @return bouton configuré.
      */
     private JButton createSendButton() {
-        JButton button = new JButton("Envoyer");
+        JButton button = createIconTextButton("envelope-2.png","Envoyer", "Envoyer");
         button.setFont(BUTTON_FONT);
         button.setFocusPainted(false);
         button.setBackground(SEND_BUTTON_COLOR);
@@ -221,7 +222,7 @@ public class PortConfigSelectorPanel extends JPanel {
      * @return bouton configuré.
      */
     private JButton createListenButton() {
-        JButton button = new JButton("▶ Écouter");
+        JButton button = createIconTextButton("bouton-droit.png","Écouter","Écouter");
         button.setFont(BUTTON_FONT);
         button.setFocusPainted(false);
         button.setBackground(LISTEN_BUTTON_COLOR);
@@ -414,98 +415,104 @@ public class PortConfigSelectorPanel extends JPanel {
                 int databits = rs.getInt("databits");
                 int stopbits = rs.getInt("stopbits");
 
-                String label = String.format("Config %d : %d - %s - %d/%d",
-                        id, baudrate, parity, databits, stopbits);
+                String label = String.format("Config %d : %d - %s - %d/%d", id, baudrate, parity, databits, stopbits);
 
-                JPanel configPanel = new JPanel();
-                configPanel.setLayout(new BorderLayout());
-                configPanel.setBackground(Color.WHITE);
+                // Panel global de la ligne
+                JPanel configRow = new JPanel(new BorderLayout());
+                configRow.setBackground(Color.WHITE);
+                configRow.setBorder(BorderFactory.createEmptyBorder(6, 10, 6, 10));
 
-                JLabel configLabel = new JLabel(label);
-                configLabel.setFont(CONFIG_FONT);
-                configLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-                configPanel.add(configLabel, BorderLayout.CENTER);
+                // Label configuration
+                JLabel labelComponent = new JLabel(label);
+                labelComponent.setFont(CONFIG_FONT);
+                configRow.add(labelComponent, BorderLayout.CENTER);
 
-                JPanel buttonsPanel = new JPanel();
-                buttonsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 0));
-                buttonsPanel.setBackground(Color.WHITE);
+                // Panneau d'actions
+                JPanel actionsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 2, 0));
+                actionsPanel.setOpaque(false);
 
-                // Bouton de sélection
-                JButton selectButton = createMenuButton("\u2713", "Sélectionner cette configuration");
-                selectButton.addActionListener(e -> {
+                JButton selectBtn = createIconButton("valide.png", "Sélectionner cette configuration");
+                selectBtn.addActionListener(e -> {
                     selectedConfigId = id;
                     selectedConfigLabel = label;
-                    configButton.setText(String.format("Config %d ▼", id));
+                    configButton.setText("Config " + id + " ▼");
                     configMenu.setVisible(false);
                 });
 
-                // Bouton d'édition
-                JButton editButton = createMenuButton("\u270E", "Modifier cette configuration");
-                editButton.addActionListener(e -> {
+                JButton editBtn   = createIconButton("crayon.png", "Modifier cette configuration");
+                editBtn.addActionListener(e -> {
                     JFrame parent = (JFrame) SwingUtilities.getWindowAncestor(this);
                     new org.sncf.gui.ui.dialogs.EditPortConfigDialog(parent, id).setVisible(true);
                     reloadConfigs();
                     configMenu.setVisible(false);
                 });
 
-                // Bouton de suppression
-                JButton deleteButton = createMenuButton("\u1F5D1", "Supprimer cette configuration");
-                deleteButton.addActionListener(e -> {
+                JButton deleteBtn = createIconButton("poubelle.png", "Supprimer cette configuration");
+                deleteBtn.addActionListener(e -> {
                     int confirm = JOptionPane.showConfirmDialog(this,
                             "Supprimer cette configuration ?", "Confirmation",
-                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
                     if (confirm == JOptionPane.YES_OPTION) {
-                        try (Connection deleteConn = DriverManager.getConnection(DatabaseManager.getDbUrl());
-                             PreparedStatement ps = deleteConn.prepareStatement("DELETE FROM port_config WHERE id = ?")) {
-
+                        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM port_config WHERE id = ?")) {
                             ps.setInt(1, id);
                             ps.executeUpdate();
-
                             if (selectedConfigId == id) {
                                 selectedConfigId = -1;
                                 selectedConfigLabel = "";
                                 configButton.setText("Configuration Port ▼");
                             }
-
                             reloadConfigs();
                         } catch (SQLException ex) {
-                            showError("Erreur lors de la suppression: " + ex.getMessage());
+                            showError("Erreur lors de la suppression : " + ex.getMessage());
                         }
                     }
 
                     configMenu.setVisible(false);
                 });
 
-                buttonsPanel.add(selectButton);
-                buttonsPanel.add(editButton);
-                buttonsPanel.add(deleteButton);
-                configPanel.add(buttonsPanel, BorderLayout.EAST);
+                actionsPanel.add(selectBtn);
+                actionsPanel.add(editBtn);
+                actionsPanel.add(deleteBtn);
 
-                // Ajouter un séparateur pour chaque élément sauf le dernier
-                configMenu.add(configPanel);
+                configRow.add(actionsPanel, BorderLayout.EAST);
+
+                // Effet hover
+                configRow.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        configRow.setBackground(new Color(245, 245, 245));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        configRow.setBackground(Color.WHITE);
+                    }
+                });
+
+                configMenu.add(configRow);
                 configMenu.add(new JSeparator());
             }
 
-            // Ajouter un élément pour créer une nouvelle configuration
-            JPanel newConfigPanel = new JPanel(new BorderLayout());
-            newConfigPanel.setBackground(Color.WHITE);
+            // Ajout d’une configuration
+            JPanel addConfigPanel = new JPanel(new BorderLayout());
+            addConfigPanel.setBackground(Color.WHITE);
+            addConfigPanel.setBorder(BorderFactory.createEmptyBorder(6, 10, 6, 10));
 
-            JLabel newConfigLabel = new JLabel("Ajouter une nouvelle configuration");
-            newConfigLabel.setFont(CONFIG_FONT);
-            newConfigLabel.setForeground(ACCENT_COLOR);
-            newConfigLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+            JLabel addLabel = new JLabel("+ Nouvelle configuration");
+            addLabel.setFont(CONFIG_FONT);
+            addLabel.setForeground(ACCENT_COLOR);
+            addConfigPanel.add(addLabel, BorderLayout.CENTER);
 
-            newConfigPanel.add(newConfigLabel, BorderLayout.CENTER);
-            newConfigPanel.addMouseListener(new MouseAdapter() {
+            addConfigPanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    newConfigPanel.setBackground(new Color(240, 240, 240));
+                    addConfigPanel.setBackground(new Color(240, 240, 240));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    newConfigPanel.setBackground(Color.WHITE);
+                    addConfigPanel.setBackground(Color.WHITE);
                 }
 
                 @Override
@@ -517,21 +524,81 @@ public class PortConfigSelectorPanel extends JPanel {
                 }
             });
 
-            configMenu.add(newConfigPanel);
+            configMenu.add(addConfigPanel);
 
-            // Si aucune configuration n'est trouvée
             if (!hasConfigs) {
-                JLabel noConfigLabel = new JLabel("Aucune configuration trouvée");
+                JLabel noConfigLabel = new JLabel("Aucune configuration enregistrée");
                 noConfigLabel.setFont(CONFIG_FONT);
-                noConfigLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+                noConfigLabel.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
                 configMenu.add(noConfigLabel, 0);
                 configMenu.add(new JSeparator(), 1);
             }
 
         } catch (SQLException e) {
-            showError("Erreur de base de données: " + e.getMessage());
+            showError("Erreur de base de données : " + e.getMessage());
         }
     }
+
+    /**
+     * Crée un bouton avec uniquement une icône, sans texte.
+     * <p>
+     * L’icône est chargée depuis le dossier <code>/icons/</code> du classpath, redimensionnée à 16×16 pixels,
+     * et utilisée comme image principale du bouton. Le style du bouton est plat, sans fond ni bordures visibles,
+     * adapté aux barres d’outils ou menus contextuels minimalistes.
+     *
+     * @param iconFileName le nom du fichier image dans <code>/resources/icons</code> (ex : <code>"poubelle.png"</code>)
+     * @param tooltip      le texte de l’infobulle (affiché au survol)
+     * @return un bouton Swing affichant une icône seule
+     * @throws IllegalArgumentException si l’icône n’est pas trouvée dans le classpath
+     */
+    private JButton createIconButton(String iconFileName, String tooltip) {
+        URL iconUrl = getClass().getResource("/icons/" + iconFileName);
+        if (iconUrl == null) {
+            throw new IllegalArgumentException("Icon not found: " + iconFileName);
+        }
+
+        ImageIcon icon = new ImageIcon(iconUrl);
+        Image scaled = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+        JButton button = new JButton(new ImageIcon(scaled));
+        button.setPreferredSize(new Dimension(26, 26));
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(false);
+        button.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        button.setToolTipText(tooltip);
+        return button;
+    }
+
+    /**
+     * Crée un bouton avec une icône à gauche du texte.
+     * <p>
+     * L’icône est chargée depuis le dossier <code>/icons/</code> du classpath, redimensionnée à 16×16 pixels,
+     * puis affichée à gauche du libellé. Ce bouton est stylisé avec une police lisible, fond blanc et alignement gauche.
+     *
+     * @param iconFileName le nom du fichier image dans <code>/resources/icons</code> (ex : <code>"export.png"</code>)
+     * @param text         le libellé du bouton (ex : <code>"Exporter"</code>)
+     * @param tooltip      le texte de l’infobulle (affiché au survol)
+     * @return un bouton Swing avec icône + texte
+     * @throws IllegalArgumentException si l’icône n’est pas trouvée dans le classpath
+     */
+    private JButton createIconTextButton(String iconFileName, String text, String tooltip) {
+        URL iconUrl = getClass().getResource("/icons/" + iconFileName);
+        if (iconUrl == null) {
+            throw new IllegalArgumentException("Icon not found: " + iconFileName);
+        }
+
+        ImageIcon icon = new ImageIcon(iconUrl);
+        Image scaled = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaled);
+
+        JButton button = new JButton(text, scaledIcon);
+        button.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        button.setFocusPainted(false);
+        button.setBackground(Color.WHITE);
+        button.setToolTipText(tooltip);
+        button.setHorizontalAlignment(SwingConstants.LEFT);
+        return button;
+    }
+
 
     /**
      * Récupère les lignes de configuration (baudrate, parité, etc.) en fonction de l’ID sélectionné.

@@ -8,6 +8,7 @@ import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.function.Consumer;
+import java.net.URL;
 
 /**
  * Composant Swing représentant la barre d’outils supérieure de l’application.
@@ -82,9 +83,9 @@ public class ToolbarPanel extends JPanel {
         leftPanel.add(Box.createRigidArea(new Dimension(20, 0)));
 
         // Boutons de navigation avec style amélioré
-        graphiqueBtn = createToolbarButton("Graphique", "📈");
-        messageBtn = createToolbarButton("Message", "💬");
-        filtreBtn = createToolbarButton("Filtre", "🔍");
+        graphiqueBtn = createToolbarButton("Graphique", "graphique.png");
+        messageBtn = createToolbarButton("Message", "message.png");
+        filtreBtn = createToolbarButton("Filtre", "loupe.png");
 
         // Ajouter des écouteurs d'événements
         graphiqueBtn.addActionListener(e -> {
@@ -139,14 +140,29 @@ public class ToolbarPanel extends JPanel {
     }
 
     /**
-     * Crée un bouton de navigation stylisé pour la barre d’outils.
+     * Crée un bouton de navigation pour une barre d’outils avec une icône à gauche du texte.
+     * <p>
+     * Le bouton est stylisé pour s’intégrer dans une barre d’outils personnalisée :
+     * sans bordures visibles, fond plat, couleurs cohérentes avec l’interface, et
+     * gestion du survol. L’icône est chargée depuis le dossier <code>/icons/</code>,
+     * redimensionnée en 16×16 pixels, puis affichée à gauche du texte.
      *
-     * @param text texte du bouton (ex: "Graphique")
-     * @param icon icône affichée après le texte (ex: "📈")
-     * @return un bouton prêt à être intégré à la barre.
+     * @param text          le libellé du bouton (ex : <code>"Graphique"</code>)
+     * @param iconFileName  le nom de l’image à utiliser comme icône (ex : <code>"chart.png"</code>), située dans <code>/resources/icons</code>
+     * @return un bouton Swing stylisé, prêt à être intégré dans une barre d’outils
+     * @throws IllegalArgumentException si l’icône spécifiée n’est pas trouvée dans le classpath
      */
-    private JButton createToolbarButton(String text, String icon) {
-        JButton button = new JButton(text + " " + icon);
+    private JButton createToolbarButton(String text, String iconFileName) {
+        URL iconUrl = getClass().getResource("/icons/" + iconFileName);
+        if (iconUrl == null) {
+            throw new IllegalArgumentException("Icon not found: " + iconFileName);
+        }
+
+        ImageIcon icon = new ImageIcon(iconUrl);
+        Image scaled = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaled);
+
+        JButton button = new JButton(text, scaledIcon);
         button.setFont(BUTTON_FONT);
         button.setFocusPainted(false);
         button.setBorderPainted(false);
@@ -155,8 +171,9 @@ public class ToolbarPanel extends JPanel {
         button.setBackground(BACKGROUND_COLOR);
         button.setForeground(HEADER_COLOR);
         button.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
+        button.setHorizontalAlignment(SwingConstants.LEFT);
 
-        // Ajouter des effets de survol
+        // Hover effect
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {

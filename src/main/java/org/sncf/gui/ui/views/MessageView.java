@@ -7,6 +7,8 @@ import org.sncf.gui.services.*;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,10 +58,10 @@ public class MessageView extends JPanel {
         toggleSimulationBtn = new JButton(getButtonLabel());
         toggleSimulationBtn.addActionListener(e -> toggleSimulation());
 
-        JButton clearBtn = new JButton("Réinitialiser");
+        JButton clearBtn = createIconTextButton("reini.png","Réinitialiser", "Réinitialiser");
         clearBtn.addActionListener(e -> clearMessages());
 
-        JButton clearDbBtn = new JButton("Vider la base");
+        JButton clearDbBtn = createIconTextButton("balai.png","Vider la base","Vider la base");
         clearDbBtn.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(this,
                     "Voulez-vous vraiment supprimer toutes les trames de la base de données ?",
@@ -74,10 +76,10 @@ public class MessageView extends JPanel {
             }
         });
 
-        JButton exportBtn = new JButton("Exporter");
+        JButton exportBtn = createIconTextButton("envelope.png","Exporter", "Exporter");
         exportBtn.addActionListener(e -> openExportDialog());
 
-        JButton viewDictBtn = new JButton("📖 Voir le dictionnaire");
+        JButton viewDictBtn = createIconTextButton("dico.png","Dictionnaire", "Dictionnaire");
         viewDictBtn.addActionListener(e -> openDictionaryViewer());
 
         topPanel.add(viewDictBtn);
@@ -90,6 +92,37 @@ public class MessageView extends JPanel {
         add(buildMainSplitPane(), BorderLayout.CENTER);
     }
 
+    /**
+     * Crée un bouton stylisé avec une icône et un texte alignés à gauche.
+     * <p>
+     * L’icône est chargée depuis le dossier <code>/icons/</code> dans le classpath, redimensionnée
+     * en 16×16 pixels, puis affichée à gauche du texte. Le bouton utilise un style plat
+     * avec fond blanc, police moderne, et une infobulle (tooltip) personnalisée.
+     *
+     * @param iconFileName le nom de fichier de l’icône (ex : <code>"export.png"</code>), située dans <code>/resources/icons</code>
+     * @param text         le texte à afficher à droite de l’icône (ex : <code>"Exporter"</code>)
+     * @param tooltip      le texte de l’info-bulle affichée au survol du bouton
+     * @return un bouton Swing prêt à être intégré dans une interface utilisateur
+     * @throws IllegalArgumentException si l’icône spécifiée n’est pas trouvée dans le classpath
+     */
+    private JButton createIconTextButton(String iconFileName, String text, String tooltip) {
+        URL iconUrl = getClass().getResource("/icons/" + iconFileName);
+        if (iconUrl == null) {
+            throw new IllegalArgumentException("Icon not found: " + iconFileName);
+        }
+
+        ImageIcon icon = new ImageIcon(iconUrl);
+        Image scaled = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaled);
+
+        JButton button = new JButton(text, scaledIcon);
+        button.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        button.setFocusPainted(false);
+        button.setBackground(Color.WHITE);
+        button.setToolTipText(tooltip);
+        button.setHorizontalAlignment(SwingConstants.LEFT);
+        return button;
+    }
 
     /**
      * Ouvre une fenêtre affichant le dictionnaire actuel contenant
