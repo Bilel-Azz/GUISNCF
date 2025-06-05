@@ -83,7 +83,7 @@ public class DictionaryService {
 
         // Charger le dictionnaire dans une map
         Map<String, String> dict = new HashMap<>();
-        for (DictionaryService.DictionaryEntry entry : getAllEntries()) {
+        for (DictionaryEntry entry : getAllEntries()) {
             dict.put(entry.hexPattern.trim().toUpperCase(), entry.traduction);
         }
 
@@ -91,7 +91,7 @@ public class DictionaryService {
         while (i < tokens.length) {
             boolean matched = false;
 
-            // Tente de faire correspondre les séquences les plus longues du dictionnaire
+            // Tente de faire correspondre les séquences les plus longues
             for (int len = tokens.length - i; len > 0; len--) {
                 StringBuilder seqBuilder = new StringBuilder();
                 for (int j = 0; j < len; j++) {
@@ -101,30 +101,30 @@ public class DictionaryService {
                 String candidate = seqBuilder.toString().toUpperCase();
 
                 if (dict.containsKey(candidate)) {
-                    result.append(dict.get(candidate)).append(" ");
+                    result.append(dict.get(candidate));
                     i += len;
                     matched = true;
                     break;
                 }
             }
 
-            // Si aucun match dictionnaire, essaie de convertir en ASCII
+            // Pas de correspondance, conversion ASCII
             if (!matched) {
                 try {
                     int value = Integer.parseInt(tokens[i], 16);
                     if (value >= 32 && value <= 126) {
-                        result.append((char) value).append(" ");
+                        result.append((char) value);
                     } else {
-                        result.append(". ");
+                        result.append(".");
                     }
                 } catch (NumberFormatException e) {
-                    result.append(". ");
+                    result.append(".");
                 }
                 i++;
             }
         }
 
-        return result.toString().trim();
+        return result.toString();
     }
 
     /**
