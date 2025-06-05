@@ -111,7 +111,7 @@ public class DatabaseManager {
                     raw_bits TEXT,
                     raw_hexa TEXT,
                     raw_text TEXT,
-                    timestamp TEXT NOT NULL
+                    timestamp TEXT NOT NULL DEFAULT (DATETIME('now'))
                 );
             """);
 

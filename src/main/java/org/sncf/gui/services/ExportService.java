@@ -40,7 +40,14 @@ public class ExportService {
         int userSelection = fileChooser.showSaveDialog(null);
         if (userSelection != JFileChooser.APPROVE_OPTION) return;
 
-        try (PrintWriter writer = new PrintWriter(new FileWriter(fileChooser.getSelectedFile()))) {
+        //Ajout de l'extension
+        String path = fileChooser.getSelectedFile().getAbsolutePath();
+        String expectedExt = toCsv ? ".csv" : ".json";
+        if (!path.toLowerCase().endsWith(expectedExt)) {
+            path += expectedExt;
+        }
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(path))) {
             List<TrameService.TrameEntry> exportList = fromDb
                     ? trameService.loadAllFromDb()
                     : inMemoryTrames;
