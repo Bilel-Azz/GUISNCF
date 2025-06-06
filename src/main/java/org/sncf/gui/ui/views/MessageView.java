@@ -43,6 +43,8 @@ public class MessageView extends JPanel {
     private List<FilterRule> currentFilters = new ArrayList<>();
     private final Highlighter.HighlightPainter syncPainter = new DefaultHighlighter.DefaultHighlightPainter(new Color(255, 200, 100, 128));
 
+    private Object bitSyncHighlight, hexSyncHighlight, textSyncHighlight;
+
     private final MouseAdapter syncMouseAdapter = new MouseAdapter() {
         @Override
         public void mousePressed(java.awt.event.MouseEvent e) {
@@ -145,15 +147,14 @@ public class MessageView extends JPanel {
 
     private void syncHighlight(int lineIndex) {
         try {
-            Highlighter[] highlighters = {
-                    bitPane.getHighlighter(),
-                    hexPane.getHighlighter(),
-                    textPane.getHighlighter()
-            };
-            JTextPane[] panes = {bitPane, hexPane, textPane};
+            Highlighter bitH = bitPane.getHighlighter();
+            Highlighter hexH = hexPane.getHighlighter();
+            Highlighter textH = textPane.getHighlighter();
 
-            // Effacer anciens surlignements synchronisés
-            for (Highlighter h : highlighters) h.removeAllHighlights();
+            // Supprime les anciens highlights de sync uniquement
+            if (bitSyncHighlight != null) bitH.removeHighlight(bitSyncHighlight);
+            if (hexSyncHighlight != null) hexH.removeHighlight(hexSyncHighlight);
+            if (textSyncHighlight != null) textH.removeHighlight(textSyncHighlight);
 
             String[] bitLines = bitPane.getText().split("\n");
             String[] hexLines = hexPane.getText().split("\n");
@@ -161,17 +162,17 @@ public class MessageView extends JPanel {
 
             if (lineIndex < bitLines.length) {
                 int bitStart = getLineOffset(bitPane, lineIndex);
-                highlighters[0].addHighlight(bitStart, bitStart + bitLines[lineIndex].length(), syncPainter);
+                bitSyncHighlight = bitH.addHighlight(bitStart, bitStart + bitLines[lineIndex].length(), syncPainter);
             }
 
             if (lineIndex < hexLines.length) {
                 int hexStart = getLineOffset(hexPane, lineIndex);
-                highlighters[1].addHighlight(hexStart, hexStart + hexLines[lineIndex].length(), syncPainter);
+                hexSyncHighlight = hexH.addHighlight(hexStart, hexStart + hexLines[lineIndex].length(), syncPainter);
             }
 
             if (lineIndex < textLines.length) {
                 int textStart = getLineOffset(textPane, lineIndex);
-                highlighters[2].addHighlight(textStart, textStart + textLines[lineIndex].length(), syncPainter);
+                textSyncHighlight = textH.addHighlight(textStart, textStart + textLines[lineIndex].length(), syncPainter);
             }
 
         } catch (BadLocationException e) {
@@ -387,7 +388,9 @@ public class MessageView extends JPanel {
     private List<int[]> findPatternMatches(String input, String pattern) {
         String cleanedInput = input.replaceAll("\\s+", "").toUpperCase();
         String cleanedPattern = pattern.replaceAll("\\s+", "").toUpperCase();
-        String regex = Pattern.quote(cleanedPattern).replace("\\*", ".*?");
+
+        // Transforme * en regex générique, sans échapper les autres caractères
+        String regex = cleanedPattern.replace("*", ".*?");
         Pattern compiled = Pattern.compile(regex);
         Matcher matcher = compiled.matcher(cleanedInput);
 
@@ -489,7 +492,7 @@ public class MessageView extends JPanel {
         hexHighlighter.removeAllHighlights();
         textHighlighter.removeAllHighlights();
 
-        List<TrameService.TrameEntry> filteredTrames = trameService.filterTrames(trames, filters);
+        List<TrameService.TrameEntry> filteredTrames = trames;
 
         try {
             for (TrameService.TrameEntry entry : filteredTrames) {
