@@ -368,6 +368,36 @@ public class MessageView extends JPanel {
         textPane.setText("");
     }
 
+    private enum FilterType {
+        BITS, HEX, TEXT
+    }
+
+    private FilterType detectFilterType(String pattern) {
+        String cleaned = pattern.replaceAll("\\s+", "").replace("*", "").toUpperCase();
+
+        if (cleaned.matches("[01]+")) {
+            return FilterType.BITS;
+        } else if (cleaned.matches("([0-9A-F]{2})+")) {
+            return FilterType.HEX;
+        } else {
+            return FilterType.TEXT;
+        }
+    }
+
+    private List<int[]> findPatternMatches(String input, String pattern) {
+        String cleanedInput = input.replaceAll("\\s+", "").toUpperCase();
+        String cleanedPattern = pattern.replaceAll("\\s+", "").toUpperCase();
+        String regex = Pattern.quote(cleanedPattern).replace("\\*", ".*?");
+        Pattern compiled = Pattern.compile(regex);
+        Matcher matcher = compiled.matcher(cleanedInput);
+
+        List<int[]> ranges = new ArrayList<>();
+        while (matcher.find()) {
+            ranges.add(new int[]{matcher.start(), matcher.end()});
+        }
+        return ranges;
+    }
+
     /**
      * Bascule l’état du mode simulation et met à jour le bouton.
      */
@@ -474,101 +504,72 @@ public class MessageView extends JPanel {
                 String[] hexTokens = entry.hex.split(" ");
 
                 for (FilterRule rule : filters) {
+                    FilterType type = detectFilterType(rule.pattern);
 
-                    // 🔍 Filtres binaires (ex: 1111)
-                    if (rule.pattern.matches("[01]+")) {
-                        int index = 0;
-                        int patternLen = rule.pattern.length();
-                        while (index <= entry.bits.length() - patternLen) {
-                            if (entry.bits.substring(index, index + patternLen).equals(rule.pattern)) {
-                                // Bits
-                                bitsHighlighter.addHighlight(bitOffset + index,
-                                        bitOffset + index + patternLen,
+                    switch (type) {
+                        case BITS -> {
+                            List<int[]> matches = findPatternMatches(entry.bits, rule.pattern);
+                            for (int[] range : matches) {
+                                int start = range[0], end = range[1];
+                                bitsHighlighter.addHighlight(bitOffset + start, bitOffset + end,
                                         new DefaultHighlighter.DefaultHighlightPainter(rule.color));
 
-                                // Hex et texte
-                                int byteStart = index / 8;
-                                int byteEnd = (index + patternLen - 1) / 8;
-                                for (int j = byteStart; j <= byteEnd && j < hexTokens.length; j++) {
-                                    int hexStart = hexOffset + getHexOffset(hexTokens, j);
-                                    hexHighlighter.addHighlight(hexStart,
-                                            hexStart + hexTokens[j].length(),
+                                int startByte = start / 8;
+                                int endByte = (end - 1) / 8;
+                                for (int i = startByte; i <= endByte && i < hexTokens.length; i++) {
+                                    int hexStart = hexOffset + getHexOffset(hexTokens, i);
+                                    hexHighlighter.addHighlight(hexStart, hexStart + hexTokens[i].length(),
                                             new DefaultHighlighter.DefaultHighlightPainter(rule.color));
 
-                                    if (j < entry.text.length()) {
-                                        textHighlighter.addHighlight(textOffset + j,
-                                                textOffset + j + 1,
+                                    if (i < entry.text.length()) {
+                                        textHighlighter.addHighlight(textOffset + i, textOffset + i + 1,
                                                 new DefaultHighlighter.DefaultHighlightPainter(rule.color));
                                     }
                                 }
-                                index += patternLen;
-                            } else {
-                                index++;
                             }
                         }
-                    }
 
-                    else if (isHexWithWildcard(rule.pattern)) {
-                        String cleanHex = entry.hex.replaceAll("\\s+", "").toUpperCase();
-                        String cleanPattern = rule.pattern.replaceAll("\\s+", "").toUpperCase();
-
-                        // On transforme chaque * en "([0-9A-F]{2})*"
-                        String regex = Pattern.quote(cleanPattern)
-                                .replace("\\*", "([0-9A-F]{2})*");
-
-                        Pattern p = Pattern.compile(regex);
-                        Matcher m = p.matcher(cleanHex);
-
-                        while (m.find()) {
-                            int startByte = m.start() / 2;
-                            int endByte = (m.end() - 1) / 2;
-
-                            for (int i = startByte; i <= endByte && i < hexTokens.length; i++) {
-                                int hexStart = hexOffset + getHexOffset(hexTokens, i);
-                                hexHighlighter.addHighlight(hexStart,
-                                        hexStart + hexTokens[i].length(),
-                                        new DefaultHighlighter.DefaultHighlightPainter(rule.color));
-
-                                int bitIdx = i * 8;
-                                int bitEnd = Math.min(bitIdx + 8, entry.bits.length());
-                                bitsHighlighter.addHighlight(bitOffset + bitIdx, bitOffset + bitEnd,
-                                        new DefaultHighlighter.DefaultHighlightPainter(rule.color));
-
-                                if (i < entry.text.length()) {
-                                    textHighlighter.addHighlight(textOffset + i,
-                                            textOffset + i + 1,
+                        case HEX -> {
+                            String cleanHex = entry.hex.replaceAll("\\s+", "").toUpperCase();
+                            List<int[]> matches = findPatternMatches(cleanHex, rule.pattern);
+                            for (int[] range : matches) {
+                                int startByte = range[0] / 2;
+                                int endByte = (range[1] - 1) / 2;
+                                for (int i = startByte; i <= endByte && i < hexTokens.length; i++) {
+                                    int hexStart = hexOffset + getHexOffset(hexTokens, i);
+                                    hexHighlighter.addHighlight(hexStart, hexStart + hexTokens[i].length(),
                                             new DefaultHighlighter.DefaultHighlightPainter(rule.color));
-                                }
-                            }
-                        }
-                    }
 
-                    // 🔍 Filtres texte brut (ex: "STOP")
-                    else {
-                        int index = 0;
-                        int patternLen = rule.pattern.length();
-                        while (index <= entry.text.length() - patternLen) {
-                            if (entry.text.substring(index, index + patternLen).equals(rule.pattern)) {
-                                textHighlighter.addHighlight(textOffset + index,
-                                        textOffset + index + patternLen,
-                                        new DefaultHighlighter.DefaultHighlightPainter(rule.color));
+                                    int bitIdx = i * 8;
+                                    int bitEnd = Math.min(bitIdx + 8, entry.bits.length());
+                                    bitsHighlighter.addHighlight(bitOffset + bitIdx, bitOffset + bitEnd,
+                                            new DefaultHighlighter.DefaultHighlightPainter(rule.color));
 
-                                for (int j = 0; j < patternLen; j++) {
-                                    if (index + j < hexTokens.length) {
-                                        int hexStart = hexOffset + getHexOffset(hexTokens, index + j);
-                                        hexHighlighter.addHighlight(hexStart,
-                                                hexStart + hexTokens[index + j].length(),
-                                                new DefaultHighlighter.DefaultHighlightPainter(rule.color));
-
-                                        int bitIdx = (index + j) * 8;
-                                        int bitEnd = Math.min(bitIdx + 8, entry.bits.length());
-                                        bitsHighlighter.addHighlight(bitOffset + bitIdx, bitOffset + bitEnd,
+                                    if (i < entry.text.length()) {
+                                        textHighlighter.addHighlight(textOffset + i, textOffset + i + 1,
                                                 new DefaultHighlighter.DefaultHighlightPainter(rule.color));
                                     }
                                 }
-                                index += patternLen;
-                            } else {
-                                index++;
+                            }
+                        }
+
+                        case TEXT -> {
+                            List<int[]> matches = findPatternMatches(entry.text, rule.pattern);
+                            for (int[] range : matches) {
+                                int start = range[0], end = range[1];
+                                for (int i = start; i < end && i < entry.text.length(); i++) {
+                                    textHighlighter.addHighlight(textOffset + i, textOffset + i + 1,
+                                            new DefaultHighlighter.DefaultHighlightPainter(rule.color));
+
+                                    int hexStart = hexOffset + getHexOffset(hexTokens, i);
+                                    hexHighlighter.addHighlight(hexStart, hexStart + hexTokens[i].length(),
+                                            new DefaultHighlighter.DefaultHighlightPainter(rule.color));
+
+                                    int bitIdx = i * 8;
+                                    int bitEnd = Math.min(bitIdx + 8, entry.bits.length());
+                                    bitsHighlighter.addHighlight(bitOffset + bitIdx, bitOffset + bitEnd,
+                                            new DefaultHighlighter.DefaultHighlightPainter(rule.color));
+                                }
                             }
                         }
                     }
