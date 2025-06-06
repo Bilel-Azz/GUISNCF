@@ -436,6 +436,11 @@ public class MessageView extends JPanel {
         return offset;
     }
 
+    private boolean isHexWithWildcard(String pattern) {
+        String clean = pattern.replaceAll("\\s+", "").toUpperCase();
+        return clean.matches("([0-9A-F]{2}|\\*)+");
+    }
+
     /**
      * Rafraîchit les trames affichées avec les filtres courants,
      * en appliquant les surlignages appropriés.
@@ -503,12 +508,13 @@ public class MessageView extends JPanel {
                         }
                     }
 
-                    else if (rule.pattern.replaceAll("\\s+", "").matches("([0-9A-Fa-f]{2}|\\*)+")) {
-                        // Nettoyer les espaces
-                        String cleanPattern = rule.pattern.replaceAll("\\s+", "").toUpperCase();
+                    else if (isHexWithWildcard(rule.pattern)) {
                         String cleanHex = entry.hex.replaceAll("\\s+", "").toUpperCase();
+                        String cleanPattern = rule.pattern.replaceAll("\\s+", "").toUpperCase();
 
-                        String regex = cleanPattern.replace("*", ".*");
+                        // On transforme chaque * en "([0-9A-F]{2})*"
+                        String regex = Pattern.quote(cleanPattern)
+                                .replace("\\*", "([0-9A-F]{2})*");
 
                         Pattern p = Pattern.compile(regex);
                         Matcher m = p.matcher(cleanHex);

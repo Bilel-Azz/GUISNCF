@@ -242,25 +242,9 @@ public class GraphView extends JPanel {
             // Tracé du séparateur "Start"
             g2d.setColor(Color.RED);
             g2d.drawString("Start", startX + 2, 30);
-
-            // Calcul des temps
-            int durationBits = endBitIndex - startBitIndex;
-            int durationPixels = durationBits * bitWidth;
-
-            String startLabel = String.format("%d ms", (int) (startBitIndex * timePerBitMs));
-            String endLabel = String.format("%d ms", (int) (endBitIndex * timePerBitMs));
-
-            g2d.setFont(new Font("SansSerif", Font.ITALIC, 11));
-            g2d.setColor(Color.DARK_GRAY);
-
-            // Affichage conditionnel si la trame est courte
-            if (durationPixels < 60) {
-                g2d.drawString(startLabel, startX, centerY + 65);
-                g2d.drawString(endLabel, endX, centerY + 80);
-            } else {
-                g2d.drawString(startLabel, startX, centerY + 65);
-                g2d.drawString(endLabel, endX - 40, centerY + 65);
-            }
+            g2d.setColor(Color.BLACK);
+            g2d.drawLine(startX, centerY - 4, startX, centerY + 4);
+            g2d.drawLine(endX, centerY - 4, endX, centerY + 4);
 
             previousEnd = boundaryIndex;
         }
