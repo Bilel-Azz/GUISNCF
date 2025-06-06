@@ -230,8 +230,6 @@ public class GraphView extends JPanel {
         g2d.setFont(new Font("SansSerif", Font.BOLD, 12));
         int previousEnd = 0;
 
-        double timePerBitMs = 1.0; // 1 ms par bit
-
         for (int boundaryIndex : frameBoundaries) {
             int startBitIndex = previousEnd;
             int endBitIndex = boundaryIndex;

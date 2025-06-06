@@ -145,6 +145,16 @@ public class MessageView extends JPanel {
         return button;
     }
 
+    /**
+     * Synchronise la mise en surbrillance d'une ligne spécifique dans trois volets de texte :
+     * binaire (bitPane), hexadécimal (hexPane) et texte (textPane).
+     *
+     * Cette méthode supprime d'abord les surbrillances précédentes liées à la synchronisation,
+     * puis applique une nouvelle surbrillance à la ligne spécifiée si elle est présente dans
+     * chacun des volets.
+     *
+     * @param lineIndex L'indice de la ligne à mettre en surbrillance dans chaque volet.
+     */
     private void syncHighlight(int lineIndex) {
         try {
             Highlighter bitH = bitPane.getHighlighter();
@@ -180,6 +190,15 @@ public class MessageView extends JPanel {
         }
     }
 
+    /**
+     * Calcule l'offset (position de départ en nombre de caractères) d'une ligne donnée
+     * dans un composant JTextPane.
+     *
+     * @param pane Le JTextPane dans lequel chercher la ligne.
+     * @param line L'indice (zéro-indexé) de la ligne dont on veut connaître l'offset.
+     * @return L'offset de la ligne spécifiée dans le texte du composant.
+     * @throws BadLocationException Si l'accès à une position invalide dans le texte est tenté.
+     */
     private int getLineOffset(JTextPane pane, int line) throws BadLocationException {
         String[] lines = pane.getText().split("\n");
         int offset = 0;
@@ -369,10 +388,21 @@ public class MessageView extends JPanel {
         textPane.setText("");
     }
 
+    /**
+     * Enumération représentant les types de filtres possibles pour une chaîne de recherche.
+     */
     private enum FilterType {
         BITS, HEX, TEXT
     }
 
+    /**
+     * Détermine le type de filtre à appliquer à partir d'un motif donné.
+     * Le motif est nettoyé de ses espaces et astérisques, puis analysé pour
+     * identifier s'il correspond à un format binaire, hexadécimal ou texte.
+     *
+     * @param pattern Le motif d'entrée à analyser.
+     * @return Le type de filtre détecté : BITS, HEX ou TEXT.
+     */
     private FilterType detectFilterType(String pattern) {
         String cleaned = pattern.replaceAll("\\s+", "").replace("*", "").toUpperCase();
 
@@ -385,6 +415,16 @@ public class MessageView extends JPanel {
         }
     }
 
+    /**
+     * Recherche toutes les occurrences d'un motif dans une chaîne d'entrée en utilisant
+     * une correspondance basée sur des expressions régulières. Les astérisques dans le motif
+     * sont interprétés comme des jokers (équivalents à .*? en regex).
+     *
+     * @param input   La chaîne dans laquelle rechercher les correspondances.
+     * @param pattern Le motif à rechercher, pouvant inclure des jokers (*).
+     * @return Une liste de tableaux de deux entiers représentant les plages [début, fin)
+     *         des correspondances trouvées dans la chaîne nettoyée.
+     */
     private List<int[]> findPatternMatches(String input, String pattern) {
         String cleanedInput = input.replaceAll("\\s+", "").toUpperCase();
         String cleanedPattern = pattern.replaceAll("\\s+", "").toUpperCase();
