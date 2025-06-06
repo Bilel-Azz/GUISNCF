@@ -11,6 +11,8 @@ import java.awt.event.MouseAdapter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Composant Swing permettant d'afficher, filtrer, exporter et annoter les trames
@@ -39,6 +41,21 @@ public class MessageView extends JPanel {
     private final JButton toggleSimulationBtn;
     private final List<TrameService.TrameEntry> trames = new ArrayList<>();
     private List<FilterRule> currentFilters = new ArrayList<>();
+    private final Highlighter.HighlightPainter syncPainter = new DefaultHighlighter.DefaultHighlightPainter(new Color(255, 200, 100, 128));
+
+    private final MouseAdapter syncMouseAdapter = new MouseAdapter() {
+        @Override
+        public void mousePressed(java.awt.event.MouseEvent e) {
+            JTextPane source = (JTextPane) e.getSource();
+            try {
+                int caretPos = source.getCaretPosition();
+                int line = source.getDocument().getDefaultRootElement().getElementIndex(caretPos);
+                syncHighlight(line);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    };
 
     // Services
     private final DatabaseManager db = new DatabaseManager();
@@ -52,7 +69,9 @@ public class MessageView extends JPanel {
      */
     public MessageView() {
         setLayout(new BorderLayout());
-
+        bitPane.addMouseListener(syncMouseAdapter);
+        hexPane.addMouseListener(syncMouseAdapter);
+        textPane.addMouseListener(syncMouseAdapter);
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         toggleSimulationBtn = new JButton(getButtonLabel());
@@ -122,6 +141,51 @@ public class MessageView extends JPanel {
         button.setToolTipText(tooltip);
         button.setHorizontalAlignment(SwingConstants.LEFT);
         return button;
+    }
+
+    private void syncHighlight(int lineIndex) {
+        try {
+            Highlighter[] highlighters = {
+                    bitPane.getHighlighter(),
+                    hexPane.getHighlighter(),
+                    textPane.getHighlighter()
+            };
+            JTextPane[] panes = {bitPane, hexPane, textPane};
+
+            // Effacer anciens surlignements synchronisés
+            for (Highlighter h : highlighters) h.removeAllHighlights();
+
+            String[] bitLines = bitPane.getText().split("\n");
+            String[] hexLines = hexPane.getText().split("\n");
+            String[] textLines = textPane.getText().split("\n");
+
+            if (lineIndex < bitLines.length) {
+                int bitStart = getLineOffset(bitPane, lineIndex);
+                highlighters[0].addHighlight(bitStart, bitStart + bitLines[lineIndex].length(), syncPainter);
+            }
+
+            if (lineIndex < hexLines.length) {
+                int hexStart = getLineOffset(hexPane, lineIndex);
+                highlighters[1].addHighlight(hexStart, hexStart + hexLines[lineIndex].length(), syncPainter);
+            }
+
+            if (lineIndex < textLines.length) {
+                int textStart = getLineOffset(textPane, lineIndex);
+                highlighters[2].addHighlight(textStart, textStart + textLines[lineIndex].length(), syncPainter);
+            }
+
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private int getLineOffset(JTextPane pane, int line) throws BadLocationException {
+        String[] lines = pane.getText().split("\n");
+        int offset = 0;
+        for (int i = 0; i < line; i++) {
+            offset += lines[i].length() + 1;
+        }
+        return offset;
     }
 
     /**
@@ -439,36 +503,36 @@ public class MessageView extends JPanel {
                         }
                     }
 
-                    // 🔍 Filtres hexadécimaux (ex: "4A 5E 6C")
-                    else if (rule.pattern.matches("([0-9A-Fa-f]{2}\\s?)+")) {
-                        String[] ruleTokens = rule.pattern.trim().split("\\s+");
-                        for (int i = 0; i <= hexTokens.length - ruleTokens.length; i++) {
-                            boolean match = true;
-                            for (int j = 0; j < ruleTokens.length; j++) {
-                                if (!hexTokens[i + j].equalsIgnoreCase(ruleTokens[j])) {
-                                    match = false;
-                                    break;
-                                }
-                            }
-                            if (match) {
-                                for (int j = 0; j < ruleTokens.length; j++) {
-                                    int hexStart = hexOffset + getHexOffset(hexTokens, i + j);
-                                    hexHighlighter.addHighlight(hexStart,
-                                            hexStart + hexTokens[i + j].length(),
-                                            new DefaultHighlighter.DefaultHighlightPainter(rule.color));
+                    else if (rule.pattern.replaceAll("\\s+", "").matches("([0-9A-Fa-f]{2}|\\*)+")) {
+                        // Nettoyer les espaces
+                        String cleanPattern = rule.pattern.replaceAll("\\s+", "").toUpperCase();
+                        String cleanHex = entry.hex.replaceAll("\\s+", "").toUpperCase();
 
-                                    int bitIdx = (i + j) * 8;
-                                    int bitEnd = Math.min(bitIdx + 8, entry.bits.length());
-                                    bitsHighlighter.addHighlight(bitOffset + bitIdx, bitOffset + bitEnd,
-                                            new DefaultHighlighter.DefaultHighlightPainter(rule.color));
+                        String regex = cleanPattern.replace("*", ".*");
 
-                                    if ((i + j) < entry.text.length()) {
-                                        textHighlighter.addHighlight(textOffset + i + j,
-                                                textOffset + i + j + 1,
-                                                new DefaultHighlighter.DefaultHighlightPainter(rule.color));
-                                    }
+                        Pattern p = Pattern.compile(regex);
+                        Matcher m = p.matcher(cleanHex);
+
+                        while (m.find()) {
+                            int startByte = m.start() / 2;
+                            int endByte = (m.end() - 1) / 2;
+
+                            for (int i = startByte; i <= endByte && i < hexTokens.length; i++) {
+                                int hexStart = hexOffset + getHexOffset(hexTokens, i);
+                                hexHighlighter.addHighlight(hexStart,
+                                        hexStart + hexTokens[i].length(),
+                                        new DefaultHighlighter.DefaultHighlightPainter(rule.color));
+
+                                int bitIdx = i * 8;
+                                int bitEnd = Math.min(bitIdx + 8, entry.bits.length());
+                                bitsHighlighter.addHighlight(bitOffset + bitIdx, bitOffset + bitEnd,
+                                        new DefaultHighlighter.DefaultHighlightPainter(rule.color));
+
+                                if (i < entry.text.length()) {
+                                    textHighlighter.addHighlight(textOffset + i,
+                                            textOffset + i + 1,
+                                            new DefaultHighlighter.DefaultHighlightPainter(rule.color));
                                 }
-                                i += ruleTokens.length - 1;
                             }
                         }
                     }

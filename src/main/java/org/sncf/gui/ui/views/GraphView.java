@@ -25,6 +25,7 @@ public class GraphView extends JPanel {
     private final List<Integer> frameBoundaries = new ArrayList<>();
     private int bitWidth = 20;
     private final JPanel graphPanel;
+    private double bitDurationMs = 1.0;
     private List<FilterRule> activeFilters = new ArrayList<>();
 
     /**
@@ -134,10 +135,30 @@ public class GraphView extends JPanel {
         for (int y = 0; y <= height; y += gridSpacingY) {
             g2d.drawLine(0, y, width, y);
         }
-        int xGrid = 40;
+        g2d.setColor(new Color(200, 200, 200));
+        g2d.setStroke(new BasicStroke(1));
+        g2d.setFont(new Font("SansSerif", Font.PLAIN, 10));
+
+        int xGrid = 40 + bitWidth;
+        int bitIndex = 0;
+
         while (xGrid <= width) {
             g2d.drawLine(xGrid, 0, xGrid, height);
+
+            if (bitIndex % 10 == 0) {
+                // Tick vertical centré autour de l'axe horizontal
+                g2d.setColor(Color.BLACK);
+                g2d.drawLine(xGrid, centerY - 5, xGrid, centerY + 5);
+
+                // Étiquette de temps
+                int timeMs = (int) (bitIndex * bitDurationMs);
+                g2d.drawString(timeMs + " ms", xGrid - 15, centerY + 40);
+
+                g2d.setColor(new Color(200, 200, 200));
+            }
+
             xGrid += bitWidth;
+            bitIndex++;
         }
 
         g2d.setColor(Color.GRAY);
@@ -206,13 +227,41 @@ public class GraphView extends JPanel {
             g2d.drawLine(separatorX, 0, separatorX, height);
         }
 
-        g2d.setColor(Color.RED);
         g2d.setFont(new Font("SansSerif", Font.BOLD, 12));
         int previousEnd = 0;
+
+        double timePerBitMs = 1.0; // 1 ms par bit
+
         for (int boundaryIndex : frameBoundaries) {
             int startBitIndex = previousEnd;
+            int endBitIndex = boundaryIndex;
+
             int startX = 40 + bitWidth + startBitIndex * bitWidth;
+            int endX = 40 + bitWidth + endBitIndex * bitWidth;
+
+            // Tracé du séparateur "Start"
+            g2d.setColor(Color.RED);
             g2d.drawString("Start", startX + 2, 30);
+
+            // Calcul des temps
+            int durationBits = endBitIndex - startBitIndex;
+            int durationPixels = durationBits * bitWidth;
+
+            String startLabel = String.format("%d ms", (int) (startBitIndex * timePerBitMs));
+            String endLabel = String.format("%d ms", (int) (endBitIndex * timePerBitMs));
+
+            g2d.setFont(new Font("SansSerif", Font.ITALIC, 11));
+            g2d.setColor(Color.DARK_GRAY);
+
+            // Affichage conditionnel si la trame est courte
+            if (durationPixels < 60) {
+                g2d.drawString(startLabel, startX, centerY + 65);
+                g2d.drawString(endLabel, endX, centerY + 80);
+            } else {
+                g2d.drawString(startLabel, startX, centerY + 65);
+                g2d.drawString(endLabel, endX - 40, centerY + 65);
+            }
+
             previousEnd = boundaryIndex;
         }
     }
